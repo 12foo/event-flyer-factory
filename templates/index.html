@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="../../favicon.ico">
+        <title>Bernie 2016 Flyer Factory</title>
+
+        <link href='http://fonts.googleapis.com/css?family=Lato:400,900italic,900,700italic,700,400italic,300italic,300,100italic,100|Lora:400,700italic,700,400italic' rel='stylesheet' type='text/css'>
+        <link href="{{ url_for("static", filename="css/berniestrap.min.css") }}" rel="stylesheet">
+        <link href="{{ url_for("static", filename="css/factory.css") }}" rel="stylesheet">
+
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Event Flyer Factory</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="{{ url_for("index") }}">Build Flyer</a></li>
+                        <li><a href="{{ url_for("index") }}">Upload Template</a></li>
+                    </ul>
+                </div> 
+            </div>
+        </nav>
+        <div class="container">
+            <div class="col-md-6">
+                <div id="event-search">
+                    zoltan
+                </div>
+                <div id="event-select">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div id="pdf-build">
+                </div>
+            </div>
+        </div> 
+
+
+    <script type="text/javascript" src="{{ url_for("static", filename="js/lodash.min.js") }}"></script>
+    <script type="text/javascript" src="{{ url_for("static", filename="js/mithril.min.js") }}"></script>
+    <script type="text/javascript" src="{{ url_for("static", filename="js/factory.js") }}"></script>
+    </body>
+</html>

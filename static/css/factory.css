@@ -1,0 +1,13 @@
+.navbar-header { padding-right: 2em; }
+.navbar-header .navbar-brand { padding-top: 36px; }
+
+#event-select .panel-body {
+    max-height: 60vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#event-select .event {
+    border-bottom: 1px solid #666;
+    padding: 3px;
+}
