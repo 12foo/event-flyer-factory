@@ -6,6 +6,13 @@ state =
     events: m.prop []
     selected: m.prop []
 
+Shared =
+    eventBody: (e) -> [
+        m '.event-name', e.name
+        m '.event-time', e.start_dt
+        m '.event-venue', e.venue_name
+    ]
+
 EventSearch =
     controller: ->
         return {
@@ -52,16 +59,12 @@ EventSelect =
         return {
             renderEvent: (e) ->
                 m '.event.row', [
-                    m '.col-xs-1',
-                        m 'input[type=checkbox].form-control',
-                            checked: _.includes state.selected(), e.id
-                            onchange: ->
-                                state.selected _.xor(state.selected(), [e.id])
-                    m '.col-xs-11', [
-                        m '.event-name', e.name
-                        m '.event-time', e.start_dt
-                        m '.event-venue', e.venue_name
-                    ]
+                    m '.col-xs-10', Shared.eventBody e
+                    m '.col-xs-2',
+                        m 'button.btn.btn-success.btn-xs',
+                            onclick: ->
+                                state.selected _.xor(state.selected(), [e])
+                        , 'Add'
                 ]
         }
     view: (c) ->
@@ -72,10 +75,49 @@ EventSelect =
                 return m '.text-muted.center', 'No results. Perform a search above.'
             else
                 return m 'div.panel.panel-default', [
-                    m 'div.panel.panel-heading', '2. Select Events'
-                    m 'div.panel-body', m '.scrollable',
+                    m '.panel.panel-heading', '2. Select Events'
+                    m '.panel-body', m '.scrollable',
                         state.events().map c.renderEvent
                 ]
+
+EventArrange =
+    controller: ->
+        removeEvent = (e) -> state.selected _.without(state.selected(), e)
+        moveEvent = (e, move) ->
+            sel = state.selected()
+            i = _.indexOf sel, e
+            sel.splice(i, 1)
+            i = i + move
+            if i < 0 then i = 0
+            if i > sel.length then i = sel.length
+            sel.splice(i, 0, e)
+            state.selected sel
+
+        return {
+            renderEvent: (e) ->
+                m '.event.row', [
+                    m '.col-xs-10', Shared.eventBody e
+                    m '.col-xs-2',
+                        m 'button.btn.btn-default.btn-xs',
+                            onclick: -> moveEvent e, -1
+                        , '▲'
+                        m 'br'
+                        m 'button.btn.btn-danger.btn-xs',
+                            onclick: -> removeEvent e
+                        , 'X'
+                        m 'br'
+                        m 'button.btn.btn-default.btn-xs',
+                            onclick: -> moveEvent e, 1
+                        , '▼'
+                ]
+        }
+    view: (c) ->
+        if state.selected().length > 0
+            return m '.panel.panel-default', [
+                m '.panel.panel-heading', '3. Arrange events'
+                m '.panel-body', m '.scrollable',
+                    state.selected().map c.renderEvent
+            ]
 
 PDFBuild =
     controller: ->
@@ -84,14 +126,13 @@ PDFBuild =
 
         return {
             buildPDF: ->
-                selected_events = _.filter state.events(), isSelected
                 state.building true
                 m.redraw()
                 m.request
                     method: 'POST'
                     url: 'build'
                     data:
-                        events: selected_events
+                        events: state.selected()
                 .then (r) ->
                     state.building false
                     if r.download
@@ -103,7 +144,7 @@ PDFBuild =
     view: (c) ->
         if state.selected().length > 0
             return m '.panel.panel-default', [
-                m '.panel-heading', '3. Select Template and Build'
+                m '.panel-heading', '4. Layout, Template and Build'
                 m '.panel-body', [
                     m '', state.selected().length + ' events selected.'
                     m 'button.btn.btn-primary',
@@ -118,4 +159,5 @@ window.state = state
 
 m.mount document.getElementById('event-search'), EventSearch
 m.mount document.getElementById('event-select'), EventSelect
+m.mount document.getElementById('event-arrange'), EventArrange
 m.mount document.getElementById('pdf-build'), PDFBuild

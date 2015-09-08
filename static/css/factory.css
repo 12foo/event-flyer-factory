@@ -1,4 +1,4 @@
-.navbar-header { padding-right: 2em; }
+.navbar-header { padding-right: 2em; padding-left: 2em; }
 .navbar-header .navbar-brand { padding-top: 36px; }
 
 #event-select .panel-body {
@@ -7,7 +7,14 @@
     overflow-x: hidden;
 }
 
-#event-select .event {
-    border-bottom: 1px solid #666;
+#event-select .event, #event-arrange .event {
     padding: 3px;
+    margin: 5px;
+    background-image: linear-gradient(#eee, white);
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
+
+.event .event-name { font-weight: bold; }
+
+.event button { width: 5em; }
