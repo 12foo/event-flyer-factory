@@ -4,6 +4,7 @@ from reportlab.platypus.doctemplate import (PageTemplate)
 from reportlab.lib.units import inch
 
 from itertools import chain, repeat
+import arrow
 
 # register fonts for PDFs
 from reportlab.pdfbase import pdfmetrics
@@ -17,31 +18,31 @@ class Event(Flowable):
     def __init__(self, event):
         Flowable.__init__(self)
         self.event = event
+        self.name = event["name"]
+        self.time = "%s %s" % (arrow.get(event["start_dt"], "YYYY-MM-DD HH:mm:ss").format("MM/D/YYYY, h:mma"),
+                event["timezone"])
         self.height = 0.7*inch
 
     def draw(self):
         c = self.canv
         t = c.beginText()
         t.setFont("Lato Bold", 10)
-        t.textLine(self.event["name"])
+        t.textLine(self.name)
         t.setFont("Lato", 10)
-        t.textLine("%s %s" % (self.event["start_dt"], self.event["start_time"]))
+        t.textLine(self.time)
         t.textLine(self.event["venue_addr1"])
         c.drawText(t)
 
 # A large event.
-class LargeEvent(Flowable):
+class LargeEvent(Event):
     def __init__(self, event):
-        Flowable.__init__(self)
-        self.event = event
+        Event.__init__(self, event)
         self.height = inch
 
     def draw(self):
         c = self.canv
         t = c.beginText()
-        t.textLine(self.event["name"])
-        t.textLine("%s %s" % (self.event["date"], self.event["time"]))
-        t.textLine(self.event["venue_addr1"])
+        # todo
         c.drawText(t)
 
 def layout_twocolumn(fname, pagesize, events):
