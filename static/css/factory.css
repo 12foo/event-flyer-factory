@@ -1,7 +1,7 @@
 .navbar-header { padding-right: 2em; padding-left: 2em; }
 .navbar-header .navbar-brand { padding-top: 36px; }
 
-#event-select .panel-body {
+#event-select .panel-body, #event-arrange .panel-body {
     max-height: 60vh;
     overflow-y: scroll;
     overflow-x: hidden;

@@ -8,7 +8,9 @@
     searching: m.prop(false),
     building: m.prop(false),
     events: m.prop([]),
-    selected: m.prop([])
+    selected: m.prop([]),
+    layout: m.prop(null),
+    available: m.prop(null)
   };
 
   Shared = {
@@ -142,6 +144,21 @@
         return _.includes(state.selected(), e.id);
       };
       return {
+        layoutDescription: function() {
+          var l;
+          if (state.layout()) {
+            l = _.find(state.available().layouts, function(av) {
+              return av.id === state.layout();
+            });
+            if (l) {
+              return l.description;
+            } else {
+              return 'Unknown layout... weird!';
+            }
+          } else {
+            return 'Please select a layout for your flyer.';
+          }
+        },
         buildPDF: function() {
           state.building(true);
           m.redraw();
@@ -149,7 +166,8 @@
             method: 'POST',
             url: 'build',
             data: {
-              events: state.selected()
+              events: state.selected(),
+              layout: state.layout()
             }
           }).then(function(r) {
             state.building(false);
@@ -166,7 +184,14 @@
       if (state.selected().length > 0) {
         return m('.panel.panel-default', [
           m('.panel-heading', '4. Layout, Template and Build'), m('.panel-body', [
-            m('', state.selected().length + ' events selected.'), m('button.btn.btn-primary', {
+            m('', state.selected().length + ' events selected.'), m('hr'), m('h4', 'Layout'), m('select.form-control', {
+              onchange: m.withAttr('value', state.layout)
+            }, state.available().layouts.map(function(l) {
+              return m('option', {
+                value: l.id,
+                selected: state.layout() === l.id
+              }, l.name);
+            })), m('.text-muted', c.layoutDescription()), m('hr'), m('button.btn.btn-primary', {
               "class": state.building() ? 'disabled' : '',
               onclick: function() {
                 return c.buildPDF();
@@ -179,6 +204,15 @@
   };
 
   window.state = state;
+
+  m.request({
+    method: 'GET',
+    url: 'available',
+    background: true
+  }).then(function(av) {
+    state.available(av);
+    return state.layout(av.layouts[0].id);
+  });
 
   m.mount(document.getElementById('event-search'), EventSearch);
 

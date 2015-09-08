@@ -5,6 +5,8 @@ state =
     building: m.prop false
     events: m.prop []
     selected: m.prop []
+    layout: m.prop null
+    available: m.prop null
 
 Shared =
     eventBody: (e) -> [
@@ -69,7 +71,7 @@ EventSelect =
         }
     view: (c) ->
         if state.searching()
-                return m '.text-muted.center', 'Searching! Please wait...'
+            return m '.text-muted.center', 'Searching! Please wait...'
         else
             if state.events().length == 0
                 return m '.text-muted.center', 'No results. Perform a search above.'
@@ -125,6 +127,13 @@ PDFBuild =
             return _.includes state.selected(), e.id
 
         return {
+            layoutDescription: ->
+                if state.layout()
+                    l = _.find state.available().layouts, (av) -> av.id == state.layout()
+                    return if l then l.description else 'Unknown layout... weird!'
+                else
+                    return 'Please select a layout for your flyer.'
+
             buildPDF: ->
                 state.building true
                 m.redraw()
@@ -133,6 +142,7 @@ PDFBuild =
                     url: 'build'
                     data:
                         events: state.selected()
+                        layout: state.layout()
                 .then (r) ->
                     state.building false
                     if r.download
@@ -147,6 +157,17 @@ PDFBuild =
                 m '.panel-heading', '4. Layout, Template and Build'
                 m '.panel-body', [
                     m '', state.selected().length + ' events selected.'
+                    m 'hr'
+                    m 'h4', 'Layout'
+                    m 'select.form-control',
+                        onchange: m.withAttr 'value', state.layout
+                    , state.available().layouts.map (l) ->
+                        m 'option',
+                            value: l.id
+                            selected: state.layout() == l.id
+                        , l.name
+                    m '.text-muted', c.layoutDescription()
+                    m 'hr'
                     m 'button.btn.btn-primary',
                         class: if state.building() then 'disabled' else ''
                         onclick: -> c.buildPDF()
@@ -156,6 +177,15 @@ PDFBuild =
 
 
 window.state = state
+
+# load available layouts/templates in the background
+m.request
+    method: 'GET'
+    url: 'available'
+    background: true
+.then (av) ->
+    state.available av
+    state.layout av.layouts[0].id
 
 m.mount document.getElementById('event-search'), EventSearch
 m.mount document.getElementById('event-select'), EventSelect
