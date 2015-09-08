@@ -49,7 +49,10 @@ class Event:
         self.time = "%s %s" % (arrow.get(event["start_dt"], "YYYY-MM-DD HH:mm:ss").format("MM/D/YYYY, h:mma"),
                 event["timezone"])
         self.description = html.unescape(event["description"])
-        self.first_sentence = re.match(r'(?:[^.:;]+[.:;]){1}', self.description).group()
+        try:
+            self.first_sentence = re.match(r'(?:[^.:;]+[.:;]){1}', self.description).group()
+        except AttributeError:
+            self.first_sentence = ""
         self.height = 0.7*inch
 
     def render(self):
