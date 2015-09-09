@@ -4,4 +4,4 @@ import layouts
 
 def build_pdf(layout_name, events, fname):
     layout = layouts.layouts[layout_name]
-    layout.fill(layout, fname, (5*inch, 11*inch), events)
+    layout.fill(layout, fname, (8.5*inch, 11*inch), events)
