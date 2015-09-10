@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request, json, send_file, after_this_request
 from os import path, remove
-import requests, tempfile, pdf_builder
-import layouts
+import requests, tempfile, os
+import pdf_builder, layouts
 
 app = Flask(__name__)
 
-download_ids = {}
+tmpdir = tempfile.mkdtemp(prefix="flyers")
 
 # Proxies event searches (no CORS on the event search).
 @app.route("/events/<zipcode>/<radius>")
@@ -24,7 +24,7 @@ def available_templates_layouts():
 # This builds a PDF and returns a download ID when it is complete.
 @app.route("/build", methods=["POST"])
 def build_flyer():
-    event_pdf = tempfile.NamedTemporaryFile(delete=False)
+    event_pdf = tempfile.NamedTemporaryFile(dir=tmpdir, delete=False)
     if "layout" not in request.json or "events" not in request.json:
         return "You have to specify a layout and a list of events.", 400
     layout = request.json["layout"]
@@ -37,16 +37,12 @@ def build_flyer():
     complete_pdf = event_pdf
     complete_pdf.close()
 
-    download_ids[path.basename(complete_pdf.name)] = complete_pdf.name
-    return json.jsonify(download=path.basename(complete_pdf.name))
+    return json.jsonify(download=path.basename(event_pdf.name))
 
 # Downloads a PDF by ID.
 @app.route("/download/<fid>")
 def download_flyer(fid):
-    if fid not in download_ids:
-        return "That download doesn't exist.", 400
-    pdf = download_ids[fid]
-    del download_ids[fid]
+    pdf = os.path.join(tmpdir, fid)
 
     @after_this_request
     def cleanup(response):
