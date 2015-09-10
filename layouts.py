@@ -159,8 +159,8 @@ class Layout:
     name = "Layout"
     description = ""
 
-    def fill(self, fname, pagesize, events, topspace=0, bottomspace=0):
-        doc = BaseDocTemplate(fname, pagesize=pagesize, leftMargin=6, bottomMargin=6, rightMargin=6, topMargin=6)
+    def fill(self, fname, pagesize, events, topspace, bottomspace):
+        doc = BaseDocTemplate(fname, pagesize=pagesize, leftMargin=margins, bottomMargin=bottomspace, rightMargin=margins, topMargin=topspace)
         doc.build([])
 
 
@@ -169,10 +169,10 @@ class TwoColumnLayout(Layout):
     name = "Two Columns (~10 events)"
     description = "A simple two-column layout. This is a good fit if you have around 10 events."
         
-    def fill(self, fname, pagesize, events, topspace=3*inch, bottomspace=0):
-        doc = BaseDocTemplate(fname, pagesize=pagesize, leftMargin=6, bottomMargin=6, rightMargin=6, topMargin=6)
-        left_column = Frame(doc.leftMargin, doc.bottomMargin, doc.width/2-6, doc.height-topspace, id="left")
-        right_column = Frame(doc.leftMargin+doc.width/2+6, doc.bottomMargin, doc.width/2-6, doc.height-topspace, id="right")
+    def fill(self, fname, pagesize, events, topspace, bottomspace, margins):
+        doc = BaseDocTemplate(fname, pagesize=pagesize, leftMargin=margins, bottomMargin=bottomspace, rightMargin=margins, topMargin=topspace)
+        left_column = Frame(doc.leftMargin, doc.bottomMargin, doc.width/2-6, doc.height, id="left")
+        right_column = Frame(doc.leftMargin+doc.width/2+6, doc.bottomMargin, doc.width/2-6, doc.height, id="right")
         doc.addPageTemplates(PageTemplate(frames=[left_column, right_column]))
 
         story = []
@@ -185,9 +185,9 @@ class LargeLayout(Layout):
     name = "Large Events (3-4 events)"
     description = "A layout that presents a small number of events large and in detail. (3-4 events)"
         
-    def fill(self, fname, pagesize, events, topspace=3*inch, bottomspace=0):
-        doc = BaseDocTemplate(fname, pagesize=pagesize, leftMargin=0.5*inch, bottomMargin=6, rightMargin=0.5*inch, topMargin=6)
-        column = Frame(doc.leftMargin, doc.bottomMargin, doc.width-6, doc.height-topspace, id="large")
+    def fill(self, fname, pagesize, events, topspace, bottomspace, margins):
+        doc = BaseDocTemplate(fname, pagesize=pagesize, leftMargin=margins, bottomMargin=bottomspace, rightMargin=margins, topMargin=topspace)
+        column = Frame(doc.leftMargin, doc.bottomMargin, doc.width-6, doc.height, id="large")
         doc.addPageTemplates(PageTemplate(frames=[column]))
 
         story = []
@@ -203,11 +203,11 @@ class ThreeColumnLayout(Layout):
     description = "A three-column layout with extra-tiny events. Useful if you need to pack a lot of them " +\
         "into one flyer."
         
-    def fill(self, fname, pagesize, events, topspace=3*inch, bottomspace=0):
-        doc = BaseDocTemplate(fname, pagesize=pagesize, leftMargin=6, bottomMargin=6, rightMargin=6, topMargin=6)
-        left_column = Frame(doc.leftMargin, doc.bottomMargin, doc.width/3-6, doc.height-topspace, id="left")
-        middle_column = Frame(doc.leftMargin+doc.width/3+6, doc.bottomMargin, doc.width/3-6, doc.height-topspace, id="middle")
-        right_column = Frame(doc.leftMargin+2*doc.width/3+6, doc.bottomMargin, doc.width/3-6, doc.height-topspace, id="right")
+    def fill(self, fname, pagesize, events, topspace, bottomspace, margins):
+        doc = BaseDocTemplate(fname, pagesize=pagesize, leftMargin=margins, bottomMargin=bottomspace, rightMargin=margins, topMargin=topspace)
+        left_column = Frame(doc.leftMargin, doc.bottomMargin, doc.width/3-6, doc.height, id="left")
+        middle_column = Frame(doc.leftMargin+doc.width/3+6, doc.bottomMargin, doc.width/3-6, doc.height, id="middle")
+        right_column = Frame(doc.leftMargin+2*doc.width/3+6, doc.bottomMargin, doc.width/3-6, doc.height, id="right")
         doc.addPageTemplates(PageTemplate(frames=[left_column, middle_column, right_column]))
 
         story = []
@@ -219,8 +219,8 @@ class FeaturedLayout(Layout):
     name = "Featured Event + 2 columns (~7 events)"
     description = "One large main event, and 2 columns with further events."
         
-    def fill(self, fname, pagesize, events, topspace=3*inch, bottomspace=0):
-        doc = BaseDocTemplate(fname, pagesize=pagesize, leftMargin=6, bottomMargin=6, rightMargin=6, topMargin=topspace)
+    def fill(self, fname, pagesize, events, topspace, bottomspace, margins):
+        doc = BaseDocTemplate(fname, pagesize=pagesize, leftMargin=margins, bottomMargin=bottomspace, rightMargin=margins, topMargin=topspace)
         featured = Frame(doc.leftMargin+0.4*inch, doc.bottomMargin+3*doc.height/4, doc.width-6-0.8*inch,
                 doc.height/3, id="featured")
         left_column = Frame(doc.leftMargin, doc.bottomMargin, doc.width/2-6, 3*doc.height/4, id="left")
