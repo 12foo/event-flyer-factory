@@ -4,6 +4,7 @@ ssh uwsgi@flyers.forbernie.com /bin/bash << EOF
     cd /uwsgi/apps/event-flyer-factory
     git pull
     pip install -r requirements.txt
+    rm -f /uwsgi/apps/event-flyer-factory/previews/*.png
     uwsgi --reload /uwsgi/event-flyer-factory.pid
 EOF
 
