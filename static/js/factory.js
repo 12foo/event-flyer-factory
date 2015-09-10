@@ -27,7 +27,15 @@
           m.redraw();
           return m.request({
             method: 'GET',
-            url: 'events/' + state.searchZip() + '/' + state.searchRadius() + '&country=US&radius_unit=mi&format=json'
+            url: 'events',
+            data: {
+              country: 'US',
+              orderby: 'zip_radius',
+              'zip_radius[0]': state.searchZip(),
+              'zip_radius[1]': state.searchRadius(),
+              radius_unit: 'mi',
+              format: 'json'
+            }
           }).then(function(r) {
             state.selected([]);
             state.events(r.results);
@@ -167,7 +175,8 @@
             url: 'build',
             data: {
               events: state.selected(),
-              layout: state.layout()
+              layout: state.layout(),
+              template: "TestFlyer"
             }
           }).then(function(r) {
             state.building(false);

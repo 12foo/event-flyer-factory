@@ -23,7 +23,14 @@ EventSearch =
                 m.redraw()
                 m.request
                     method: 'GET'
-                    url: 'events/' + state.searchZip() + '/' + state.searchRadius() + '&country=US&radius_unit=mi&format=json'
+                    url: 'events'
+                    data:
+                        country: 'US'
+                        orderby: 'zip_radius'
+                        'zip_radius[0]': state.searchZip()
+                        'zip_radius[1]': state.searchRadius()
+                        radius_unit: 'mi'
+                        format: 'json'
                 .then (r) ->
                     state.selected []
                     state.events r.results
@@ -143,6 +150,7 @@ PDFBuild =
                     data:
                         events: state.selected()
                         layout: state.layout()
+                        template: "TestFlyer"
                 .then (r) ->
                     state.building false
                     if r.download
