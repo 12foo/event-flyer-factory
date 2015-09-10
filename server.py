@@ -8,12 +8,11 @@ app = Flask(__name__)
 tmpdir = tempfile.mkdtemp(prefix="flyers")
 
 # Proxies event searches (no CORS on the event search).
-@app.route("/events/<zipcode>/<radius>")
-def find_events(zipcode, radius):
-    url = "https://go.berniesanders.com/page/event/search_results?orderby=zip_radius&zip_radius[0]=" +\
-        zipcode + "&zip_radius[1]=" + radius + "&country=US&radius_unit=mi&format=json"
+@app.route("/events")
+def find_events():
+    url = "https://go.berniesanders.com/page/event/search_results?" + request.query_string.decode("utf-8")
     events = requests.get(url)
-    return events.text
+    return events.text, events.status_code
         
 # Gets a listing of available templates and layouts.
 @app.route("/available")

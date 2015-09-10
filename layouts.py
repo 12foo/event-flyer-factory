@@ -210,10 +210,10 @@ class FeaturedLayout(Layout):
         
     def fill(self, fname, pagesize, events, topspace, bottomspace, margins):
         doc = BaseDocTemplate(fname, pagesize=pagesize, leftMargin=margins, bottomMargin=bottomspace, rightMargin=margins, topMargin=topspace)
-        featured = Frame(doc.leftMargin+0.4*inch, doc.bottomMargin+3*doc.height/4, doc.width-6-0.8*inch,
+        featured = Frame(doc.leftMargin+0.4*inch, doc.bottomMargin+2*doc.height/3, doc.width-6-0.8*inch,
                 doc.height/3, id="featured")
-        left_column = Frame(doc.leftMargin, doc.bottomMargin, doc.width/2-6, 3*doc.height/4, id="left")
-        right_column = Frame(doc.leftMargin+doc.width/2+6, doc.bottomMargin, doc.width/2-6, 3*doc.height/4, id="right")
+        left_column = Frame(doc.leftMargin, doc.bottomMargin, doc.width/2-6, 2*doc.height/3, id="left")
+        right_column = Frame(doc.leftMargin+doc.width/2+6, doc.bottomMargin, doc.width/2-6, 2*doc.height/3, id="right")
         doc.addPageTemplates(PageTemplate(frames=[featured, left_column, right_column]))
 
         story = []
