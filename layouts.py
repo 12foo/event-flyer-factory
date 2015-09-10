@@ -18,17 +18,6 @@ pdfmetrics.registerFont(TTFont("Lato", "fonts/Lato2OFL/Lato-Regular.ttf"))
 pdfmetrics.registerFont(TTFont("Lato Bold", "fonts/Lato2OFL/Lato-Bold.ttf"))
 pdfmetrics.registerFont(TTFont("Lato Italic", "fonts/Lato2OFL/Lato-Italic.ttf"))
 
-dummy_event = {
-        "name": "Placeholder Event for Flyer Factory",
-        "start_dt": "2015-09-08 12:00:00",
-        "timezone": "PDT",
-        "description": "Fremont for Bernie Sanders is hosting Mario Brown of the&nbsp;Washington State Democratic Chairs Organization to learn more about caucusing for Bernie Sanders in 2016.&nbsp; Mario will explain how the caucus works in Washington and how we can get involved to get Senator Sanders elected in November!  ...",
-        "venue_addr1": "1234 Somestreet NW",
-        "venue_city": "Seattle",
-        "venue_name": "A venue somewhere",
-        "venue_zip": "98109"
-        }
-
 styles = {
         "default": ParagraphStyle("default", fontName="Lato", fontSize=10, allowWidows=1, splitLongWords=1),
         "small": ParagraphStyle("small", fontName="Lato", fontSize=8, allowWidows=1, splitLongWords=1,
