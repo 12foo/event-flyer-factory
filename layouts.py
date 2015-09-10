@@ -166,7 +166,7 @@ class Layout:
 
 
 class TwoColumnLayout(Layout):
-    name = "Two Columns (~10 events)"
+    name = "Two Columns (~12 events)"
     description = "A simple two-column layout. This is a good fit if you have around 10 events."
         
     def fill(self, fname, pagesize, events, topspace, bottomspace, margins):
@@ -182,7 +182,7 @@ class TwoColumnLayout(Layout):
 
 
 class LargeLayout(Layout):
-    name = "Large Events (3-4 events)"
+    name = "Large Events (4-5 events)"
     description = "A layout that presents a small number of events large and in detail. (3-4 events)"
         
     def fill(self, fname, pagesize, events, topspace, bottomspace, margins):
@@ -199,7 +199,7 @@ class LargeLayout(Layout):
 
 
 class ThreeColumnLayout(Layout):
-    name = "Three Columns, extra-tiny events (~20-30 events)"
+    name = "Three Columns, extra-tiny events (30+ events)"
     description = "A three-column layout with extra-tiny events. Useful if you need to pack a lot of them " +\
         "into one flyer."
         
@@ -216,7 +216,7 @@ class ThreeColumnLayout(Layout):
         doc.build(story)
 
 class FeaturedLayout(Layout):
-    name = "Featured Event + 2 columns (~7 events)"
+    name = "Featured Event + 2 columns (~10 events)"
     description = "One large main event, and 2 columns with further events."
         
     def fill(self, fname, pagesize, events, topspace, bottomspace, margins):
