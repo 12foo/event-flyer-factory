@@ -1,6 +1,7 @@
 from reportlab.lib.units import inch
 from os.path import isfile, join, basename, splitext
 from wand.image import Image
+from wand.color import Color
 from os import listdir
 import tempfile, PyPDF2
 
@@ -49,8 +50,10 @@ def get_preview(template_name, layout_name):
     else:
         with tempfile.NamedTemporaryFile() as tmp_pdf:
             build_pdf(template_name, layout_name, [dummy_event] * 40, tmp_pdf.name)
-            with Image(filename=tmp_pdf.name, resolution=300) as pdf:
+            with Image(filename=tmp_pdf.name, resolution=100) as pdf:
                 pdf.resize(300, int(round(300 / pdf.width * pdf.height)))
+                pdf.background_color = Color("white")
+                pdf.alpha_channel = "remove"
                 pdf.save(filename=preview_name)
         return preview_name
 
