@@ -21,14 +21,14 @@ def available_templates_layouts():
     return json.jsonify(layouts=ls, templates=pdf_builder.templates)
 
 # Gets a preview image of a template/layout combination.
-@app.route("/preview/<template>/preview.png", defaults={ "layout": "TwoColumnLayout" })
-@app.route("/preview/<template>/<layout>/preview.png")
+@app.route("/preview/<template>/preview.jpg", defaults={ "layout": "TwoColumnLayout" })
+@app.route("/preview/<template>/<layout>/preview.jpg")
 def generate_preview(template, layout):
     if template not in pdf_builder.templates:
         return "Specified template does not exist.", 400
     if layout not in layouts.layouts:
         return "Specified layout does not exist.", 400
-    return send_file(pdf_builder.get_preview(template, layout), mimetype="image/png")
+    return send_file(pdf_builder.get_preview(template, layout), mimetype="image/jpeg")
 
 # This builds a PDF and returns a download ID when it is complete.
 @app.route("/build", methods=["POST"])

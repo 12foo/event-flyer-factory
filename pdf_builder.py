@@ -44,7 +44,7 @@ def build_pdf(template_name, layout_name, events, fname):
 
 
 def get_preview(template_name, layout_name):
-    preview_name = join("previews", template_name + "_" + layout_name + ".png")
+    preview_name = join("previews", template_name + "_" + layout_name + ".jpg")
     if isfile(preview_name):
         return preview_name
     else:
