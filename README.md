@@ -13,8 +13,8 @@ written in [mithril.js](https://lhorie.github.io/mithril/) and CoffeeScript.
 ## How to run
 
 ```
-git clone [...]
-cd bernie-eff
+git clone https://github.com/12foo/event-flyer-factory
+cd event-flyer-factory
 pip install -r requirements.txt
 python server.py
 ```
