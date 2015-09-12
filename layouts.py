@@ -8,7 +8,13 @@ from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT
 from reportlab.lib.units import inch
 
 from itertools import chain, repeat
-import arrow, html, re
+import arrow, re, sys
+
+if sys.version_info[0] < 3:
+    import HTMLParser
+    html = HTMLParser.HTMLParser()
+else:
+    import html
 
 # register fonts for PDFs
 from reportlab.pdfbase import pdfmetrics
@@ -45,7 +51,7 @@ styles = {
         }
 
 # A normal-sized event that fits into a 2-column layout.
-class Event:
+class Event(object):
     def __init__(self, event):
         self.event = event
         self.name = event["name"]
@@ -138,13 +144,13 @@ class SpacerLine(Flowable):
         self.canv.setLineWidth(0.25)
         self.canv.line(0, self.height/2, self.width/2-15, self.height/2)
         self.canv.setFont("FontAwesome", 11)
-        self.canv.drawCentredString(self.width/2, self.height/2-4, "\uf005")
+        self.canv.drawCentredString(self.width/2, self.height/2-4, u"\uf005")
         self.canv.line(self.width/2+15, self.height/2, self.width, self.height/2)
         self.canv.restoreState()
 
 
 # Base layout (do not make available to frontend)        
-class Layout:
+class Layout(object):
     name = "Layout"
     description = ""
 
