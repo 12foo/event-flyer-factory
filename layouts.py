@@ -230,5 +230,11 @@ class FeaturedLayout(Layout):
             story.append(Event(e).render())
         doc.build(story)
 
+cached_layouts = None
+
 def layouts():
-    return {c.__name__: c for c in Layout.__subclasses__()}
+    global cached_layouts
+    if cached_layouts is None:
+        cached_layouts = {c.__name__: c for c in Layout.__subclasses__()}
+    return cached_layouts
+
