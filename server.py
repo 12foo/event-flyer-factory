@@ -17,7 +17,7 @@ def find_events():
 # Gets a listing of available templates and layouts.
 @app.route("/available")
 def available_templates_layouts():
-    ls = [{ 'id': lid, 'name': l.name, 'description': l.description } for lid, l in layouts.layouts.items()]
+    ls = [{ 'id': lid, 'name': l.name, 'description': l.description } for lid, l in layouts.layouts().items()]
     return json.jsonify(layouts=ls, templates=pdf_builder.templates)
 
 # Gets a preview image of a template/layout combination.
@@ -26,7 +26,7 @@ def available_templates_layouts():
 def generate_preview(template, layout):
     if template not in pdf_builder.templates:
         return "Specified template does not exist.", 400
-    if layout not in layouts.layouts:
+    if layout not in layouts.layouts():
         return "Specified layout does not exist.", 400
     return send_file(pdf_builder.get_preview(template, layout), mimetype="image/jpeg")
 
@@ -39,7 +39,7 @@ def build_flyer():
     if template not in pdf_builder.templates:
         return "Specified template does not exist.", 400
     layout = request.json["layout"]
-    if layout not in layouts.layouts:
+    if layout not in layouts.layouts():
         return "Specified layout does not exist.", 400
     with tempfile.NamedTemporaryFile(dir=tmpdir, delete=False) as event_pdf:
         pdf_builder.build_pdf(template, layout, request.json["events"], event_pdf.name)

@@ -32,7 +32,7 @@ def build_pdf(template_name, layout_name, events, fname):
         template_page = template.getPage(0)
         box = template_page.mediaBox
         pagesize = (box[2] - box[0], box[3] - box[1])
-        layout = layouts.layouts[layout_name]()
+        layout = layouts.layouts()[layout_name]()
         with tempfile.NamedTemporaryFile() as event_pdf:
             layout.fill(event_pdf, pagesize, events, pagesize[1]/3, 0.5*inch, 0.5*inch)
             event_page = PyPDF2.PdfFileReader(event_pdf).getPage(0)

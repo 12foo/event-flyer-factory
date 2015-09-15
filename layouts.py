@@ -230,4 +230,5 @@ class FeaturedLayout(Layout):
             story.append(Event(e).render())
         doc.build(story)
 
-layouts = {c.__name__: c for c in Layout.__subclasses__()}
+def layouts():
+    return {c.__name__: c for c in Layout.__subclasses__()}
