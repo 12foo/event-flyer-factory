@@ -9,13 +9,18 @@ very flyer-like yet.
 
 This tool requires Python 3 (may run under Python 2). The frontend is
 written in [mithril.js](https://lhorie.github.io/mithril/) and CoffeeScript.
+To compile the frontend, node.js and NPM must be installed also.
 
 ## How to run
 
-```
+```bash
 git clone https://github.com/12foo/event-flyer-factory
 cd event-flyer-factory
+git submodule update
+# (activate your virtualenv if you have one)
 pip install -r requirements.txt
+npm install
+npm run build
 python server.py
 ```
 

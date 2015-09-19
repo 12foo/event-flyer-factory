@@ -16,9 +16,15 @@ def find_events():
         
 # Gets a listing of available templates and layouts.
 @app.route("/available")
-def available_templates_layouts():
+def available():
+    event_types = {
+        22: { "name": "Registering Voters", "color": "#f55b5b" },
+        24: { "name": "Volunteer Activity", "color": "#4acc66" },
+        25: { "name": "Volunteer Meeting", "color": "#2d9f46" },
+        26: { "name": "Debate Watch Party", "color": "#147fd7" }
+    }
     ls = [{ 'id': lid, 'name': l.name, 'description': l.description } for lid, l in layouts.layouts().items()]
-    return json.jsonify(layouts=ls, templates=pdf_builder.templates)
+    return json.jsonify(layouts=ls, templates=pdf_builder.templates, event_types=event_types)
 
 # Gets a preview image of a template/layout combination.
 @app.route("/preview/<template>/preview.jpg", defaults={ "layout": "TwoColumnLayout" })

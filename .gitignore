@@ -2,3 +2,4 @@ __pycache__/
 **.pyc
 previews/*.png
 previews/*.jpg
+node_modules/**

@@ -11,44 +11,57 @@
         <title>Bernie 2016 Flyer Factory</title>
 
         <link href='http://fonts.googleapis.com/css?family=Lato:400,900italic,900,700italic,700,400italic,300italic,300,100italic,100|Lora:400,700italic,700,400italic' rel='stylesheet' type='text/css'>
-        <link href="{{ url_for("static", filename="css/berniestrap.min.css") }}" rel="stylesheet">
-        <link href="{{ url_for("static", filename="css/factory.css") }}" rel="stylesheet">
-
+        <link href="{{ url_for("static", filename="factory.css") }}" rel="stylesheet">
     </head>
     <body>
-        <nav class="navbar">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">Event Flyer Factory</a>
+        <div id="topbar">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 logo">
+                        <h1>Logo goes here</h1>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="progress-indicator">
+                        </div>
+                    </div>
                 </div>
-                <div id="navbar" class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a href="{{ url_for("index") }}">Build Flyer</a></li>
-                        <li><a href="{{ url_for("index") }}">Upload Template</a></li>
-                    </ul>
-                </div> 
             </div>
-        </nav>
-        <div class="container-fluid">
-            <div class="col-md-4">
+        </div>
+        <div id="wizard-container">
+            <div class="wizard-page">
+                <div class="jumbo">
+                    <h2>Print &amp; share flyers for Bernie events</h2>
+                    <p>Better together-- that goes double for grassroots politics. Get active, and invite
+                    friends, colleagues and total strangers to one of the many Bernie events near you!</p>
+                    <p>This website can help you get started. Put in your zip code below, and you can
+                    have a ready-to-print invitation flyer for events near you in less than a minute.</p>
+                </div>
                 <div id="event-search">
                 </div>
+            </div>
+            <div class="wizard-page">
+                <h2>Choose your events</h2>
+                <p>Tap events to put them on your flyer. Tap them again to put them back. If you want to
+                move events up or down on your flyer, tap the little arrows that will appear on the right.</p>
                 <div id="event-select">
                 </div>
             </div>
-            <div class="col-md-4">
-                <div id="event-arrange">
+            <div class="wizard-page" id="page-select-template">
+                <h2>Select a design and layout for your flyer</h2>
+                <p>The design is the general look of the flyer (colors and images), and the layout is the
+                arrangement of the events on it. Click to select a design below, then click again to select
+                a layout.</p>
+                <div id="design-select">
                 </div>
             </div>
-            <div class="col-md-4">
-                <div id="pdf-build">
-                </div>
+            <div class="wizard-page" id="page-finish">
+                <h2>Print your flyer</h2>
+                <p>Your flyer should be downloading now! Information about printing goes here.</p>
             </div>
-        </div> 
-
-
-    <script type="text/javascript" src="{{ url_for("static", filename="js/lodash.min.js") }}"></script>
-    <script type="text/javascript" src="{{ url_for("static", filename="js/mithril.min.js") }}"></script>
-    <script type="text/javascript" src="{{ url_for("static", filename="js/factory.js") }}"></script>
+        </div>
+        <div id="footer" class="container">
+            This app is built by volunteers like you. Thanks for spreading the word!
+        </div>
+        <script type="text/javascript" src="{{ url_for("static", filename="factory.js") }}"></script>
     </body>
 </html>

@@ -1,0 +1,31 @@
+{
+  "name": "flyer-factory",
+  "version": "1.0.0",
+  "description": "Bernie 2016 Flyer Factory (frontend libs)",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack -w",
+    "build": "webpack --optimize-minimize"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/12foo/event-flyer-factory.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "coffee-loader": "^0.7.2",
+    "coffee-script": "^1.10.0",
+    "css-loader": "^0.18.0",
+    "dragula": "^3.3.0",
+    "extract-text-webpack-plugin": "^0.8.2",
+    "file-loader": "^0.8.4",
+    "less": "^2.5.1",
+    "less-loader": "^2.2.1",
+    "lodash": "^3.10.1",
+    "mithril": "^0.2.0",
+    "moment": "^2.10.6",
+    "url-loader": "^0.5.6",
+    "webpack": "^1.12.2"
+  }
+}
