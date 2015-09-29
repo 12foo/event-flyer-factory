@@ -7,8 +7,10 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT
 from reportlab.lib.units import inch
 
+from PyPDF2 import PdfFileWriter, PdfFileReader
+
 from itertools import chain, repeat
-import arrow, re, sys
+import arrow, re, os, sys, tempfile
 
 if sys.version_info[0] < 3:
     import HTMLParser
@@ -232,18 +234,30 @@ class FeaturedLayout(Layout):
         doc.build(story)
 
 class BerniePartyTwoUp(Layout):
+    events = 3
 
     def fill(self, fname, pagesize, events, topspace, bottomspace, margins):
-        doc = BaseDocTemplate(fname, pagesize=pagesize, leftMargin=margins, bottomMargin=bottomspace, rightMargin=margins, topMargin=topspace)
-        left_column = Frame(doc.leftMargin+6, doc.bottomMargin, doc.width/2-doc.leftMargin-6, 3.5*inch, id="left")
-        right_column = Frame(doc.leftMargin*2+doc.width/2, doc.bottomMargin, doc.width/2-doc.leftMargin-6, 3.5*inch, id="right")
-        doc.addPageTemplates(PageTemplate(frames=[left_column, right_column]))
+        tf = tempfile.NamedTemporaryFile(delete=False)
+        pagesize = (pagesize[0] / 2, pagesize[1])
+        doc = BaseDocTemplate(tf.name, pagesize=pagesize, leftMargin=margins, bottomMargin=bottomspace, rightMargin=margins, topMargin=topspace)
+        column = Frame(doc.leftMargin+6, doc.bottomMargin, doc.width-doc.leftMargin-6, 3.8*inch)
+        doc.addPageTemplates(PageTemplate(frames=[column]))
 
+        # render one side
         story = []
-        story.append(XLEvent(events[0]).render())
-        story.append(FrameBreak())
-        story.append(XLEvent(events[0]).render())
+        for e in events:
+            story.append(Event(e).render())
         doc.build(story)
+
+        # now duplicate for 2-up
+        src = PdfFileReader(open(tf.name, "rb"))
+        out = PdfFileWriter()
+        lhs = src.getPage(0)
+        lhs.mergeTranslatedPage(lhs, lhs.mediaBox.getUpperRight_x(), 0, True)
+        out.addPage(lhs)
+        with open(fname.name, "wb") as outfile:
+            out.write(outfile)
+        os.remove(tf.name)
 
 
 cached_layouts = None

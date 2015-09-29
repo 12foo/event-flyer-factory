@@ -18,10 +18,10 @@ def find_events():
 @app.route("/available")
 def available():
     event_types = {
-        22: { "name": "Registering Voters", "color": "#f55b5b" },
-        24: { "name": "Volunteer Activity", "color": "#4acc66" },
-        25: { "name": "Volunteer Meeting", "color": "#2d9f46" },
-        26: { "name": "Debate Watch Party", "color": "#147fd7" }
+        26: { "name": "Debate Watch Parties", "color": "#147fd7" },
+        22: { "name": "Voter Registration", "color": "#f55b5b" },
+        24: { "name": "Volunteer Activities", "color": "#4acc66" },
+        25: { "name": "Volunteer Meetings", "color": "#2d9f46" }
     }
     return json.jsonify(templates=templates.templates_dict(), event_types=event_types)
 
