@@ -238,9 +238,9 @@ class BerniePartyTwoUp(Layout):
 
     def fill(self, fname, pagesize, events, topspace, bottomspace, margins):
         tf = tempfile.NamedTemporaryFile(delete=False)
-        pagesize = (pagesize[0] / 2, pagesize[1])
+        pagesize = (pagesize[0] / 2 - 6, pagesize[1])
         doc = BaseDocTemplate(tf.name, pagesize=pagesize, leftMargin=margins, bottomMargin=bottomspace, rightMargin=margins, topMargin=topspace)
-        column = Frame(doc.leftMargin+6, doc.bottomMargin, doc.width-doc.leftMargin-6, 3.8*inch)
+        column = Frame(doc.leftMargin+6, doc.bottomMargin, doc.width-6, 3.8*inch)
         doc.addPageTemplates(PageTemplate(frames=[column]))
 
         # render one side
