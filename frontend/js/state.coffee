@@ -4,6 +4,7 @@ module.exports =
     page: m.prop 0
     searchZip: m.prop null
     searchMonths: m.prop 1
+    onlyParties: m.prop "yes"    
     searching: m.prop false
     events: m.prop []
     selected: m.prop []

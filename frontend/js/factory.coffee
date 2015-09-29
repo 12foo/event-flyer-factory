@@ -2,15 +2,6 @@ state = require 'state'
 
 window.state = state
 
-# load available layouts/templates in the background
-m.request
-    method: 'GET'
-    url: 'available'
-    background: true
-.then (av) ->
-    state.available av
-    state.layout av.layouts[0].id
-
 # this controls display/moving between individual wizard pages
 wizard =
     movePage: (direction) ->
@@ -51,4 +42,13 @@ document.getElementsByClassName('wizard-page')[state.page()].className = 'wizard
 m.mount document.getElementById('progress-indicator'), require('progress')
 m.mount document.getElementById('event-search'), require('pages/welcome').EventSearch
 m.mount document.getElementById('event-select'), require('pages/select').EventSelect
-m.mount document.getElementById('design-select'), require('pages/design').DesignSelect
+
+# load available layouts/templates in the background and then mount the design page
+# (design page requires available templates to be loaded)
+m.request
+    method: 'GET'
+    url: 'available'
+    background: true
+.then (av) ->
+    state.available av
+    m.mount document.getElementById('design-select'), require('pages/design').DesignSelect
