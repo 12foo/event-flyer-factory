@@ -173,11 +173,24 @@ div.action {
 
 div#design-select .item {
     cursor: pointer;
-    padding: 1rem;
+    margin: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
     height: 220px;
     text-align: center;
-    img { width: 120px; }
+    img {
+        margin: 5px;
+        width: 120px;
+        border: 1px solid #999;
+        box-shadow: 1px 1px 2px #999;
+    }
     &:hover {
         background: @gray-lighter;
+    }
+    p.name { margin-bottom: 0px; }
+    p.creator {
+        margin-top: 0px;
+        font-size: 0.8em;
+        .creator { font-style: italic; }
     }
 }

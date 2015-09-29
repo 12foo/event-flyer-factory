@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, json, send_file, after_this_request
 from os import path, remove
 import requests, tempfile, os
-import pdf_builder, layouts
+import pdf_builder, layouts, templates
 
 app = Flask(__name__)
 
@@ -23,15 +23,16 @@ def available():
         25: { "name": "Volunteer Meeting", "color": "#2d9f46" },
         26: { "name": "Debate Watch Party", "color": "#147fd7" }
     }
-    ls = [{ 'id': lid, 'name': l.name, 'description': l.description } for lid, l in layouts.layouts().items()]
-    return json.jsonify(layouts=ls, templates=pdf_builder.templates, event_types=event_types)
+    return json.jsonify(templates=templates.templates_dict(), event_types=event_types)
 
 # Gets a preview image of a template/layout combination.
-@app.route("/preview/<template>/preview.jpg", defaults={ "layout": "TwoColumnLayout" })
+@app.route("/preview/<template>/preview.jpg", defaults={ "layout": None })
 @app.route("/preview/<template>/<layout>/preview.jpg")
 def generate_preview(template, layout):
-    if template not in pdf_builder.templates:
+    if template not in templates.templates():
         return "Specified template does not exist.", 400
+    if layout is None:
+        layout = templates.templates()[template].layouts[0].__name__
     if layout not in layouts.layouts():
         return "Specified layout does not exist.", 400
     return send_file(pdf_builder.get_preview(template, layout), mimetype="image/jpeg")
@@ -42,7 +43,7 @@ def build_flyer():
     if "layout" not in request.json or "template" not in request.json or "events" not in request.json:
         return "You have to specify template, a layout and a list of events.", 400
     template = request.json["template"]
-    if template not in pdf_builder.templates:
+    if template not in templates.templates():
         return "Specified template does not exist.", 400
     layout = request.json["layout"]
     if layout not in layouts.layouts():

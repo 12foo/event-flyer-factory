@@ -153,6 +153,7 @@ class SpacerLine(Flowable):
 class Layout(object):
     name = "Layout"
     description = ""
+    events = 1
 
     def fill(self, fname, pagesize, events, topspace, bottomspace):
         doc = BaseDocTemplate(fname, pagesize=pagesize, leftMargin=margins, bottomMargin=bottomspace, rightMargin=margins, topMargin=topspace)
@@ -229,6 +230,21 @@ class FeaturedLayout(Layout):
         for e in events[1:]:
             story.append(Event(e).render())
         doc.build(story)
+
+class BerniePartyTwoUp(Layout):
+
+    def fill(self, fname, pagesize, events, topspace, bottomspace, margins):
+        doc = BaseDocTemplate(fname, pagesize=pagesize, leftMargin=margins, bottomMargin=bottomspace, rightMargin=margins, topMargin=topspace)
+        left_column = Frame(doc.leftMargin+6, doc.bottomMargin, doc.width/2-doc.leftMargin-6, 3.5*inch, id="left")
+        right_column = Frame(doc.leftMargin*2+doc.width/2, doc.bottomMargin, doc.width/2-doc.leftMargin-6, 3.5*inch, id="right")
+        doc.addPageTemplates(PageTemplate(frames=[left_column, right_column]))
+
+        story = []
+        story.append(XLEvent(events[0]).render())
+        story.append(FrameBreak())
+        story.append(XLEvent(events[0]).render())
+        doc.build(story)
+
 
 cached_layouts = None
 

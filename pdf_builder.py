@@ -19,19 +19,12 @@ dummy_event = {
         }
 
 
-def scan_templates():
-    tpls = [basename(f) for f in listdir("flyer-templates")
-        if isfile(join("flyer-templates", f))]
-    tpls = [name for name, ext in map(splitext, tpls) if ext == '.pdf']
-    return tpls
-
-
 def build_pdf(template_name, layout_name, events, fname):
     with open(join("flyer-templates", template_name + ".pdf"), "rb") as template_file:
         template = PyPDF2.PdfFileReader(template_file)
         template_page = template.getPage(0)
         box = template_page.mediaBox
-        pagesize = (box[2] - box[0], box[3] - box[1])
+        pagesize = (float(box[2] - box[0]), float(box[3] - box[1]))
         layout = layouts.layouts()[layout_name]()
         with tempfile.NamedTemporaryFile() as event_pdf:
             layout.fill(event_pdf, pagesize, events, pagesize[1]/3, 0.5*inch, 0.5*inch)
@@ -58,4 +51,3 @@ def get_preview(template_name, layout_name):
         return preview_name
 
 
-templates = scan_templates()
