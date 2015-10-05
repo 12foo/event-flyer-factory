@@ -240,11 +240,14 @@ class BerniePartyTwoUp(Layout):
         tf = tempfile.NamedTemporaryFile(delete=False)
         pagesize = (pagesize[0] / 2 - 6, pagesize[1])
         doc = BaseDocTemplate(tf.name, pagesize=pagesize, leftMargin=margins, bottomMargin=bottomspace, rightMargin=margins, topMargin=topspace)
-        column = Frame(doc.leftMargin+6, doc.bottomMargin, doc.width-6, 3.8*inch)
-        doc.addPageTemplates(PageTemplate(frames=[column]))
+        column = Frame(doc.leftMargin+6, doc.bottomMargin+0.5*inch, doc.width-6, 3.3*inch)
+        rsvp = Frame(doc.leftMargin+6, doc.bottomMargin, doc.width-6, 0.5*inch)
+        doc.addPageTemplates(PageTemplate(frames=[rsvp, column]))
 
         # render one side
         story = []
+        story.append(Paragraph("Please RSVP at map.berniesanders.com", styles["default"]))
+        story.append(FrameBreak())
         for e in events:
             story.append(Event(e).render())
         doc.build(story)
