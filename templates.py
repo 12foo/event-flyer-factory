@@ -14,6 +14,11 @@ class BerniePartyTwoUp(Template):
     creator = "Gavin MacPherson"
     layouts = [layouts.BerniePartyTwoUp]
 
+class DebateWatch(Template):
+    name = "Debate Watch!"
+    description = "A large flyer that fits many debate watch events."
+    creator = "Flyers for Bernie"
+    layouts = [layouts.TwoColumnLayout]
 
 cached_templates = None
 def templates():

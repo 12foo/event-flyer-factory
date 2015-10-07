@@ -7,7 +7,7 @@ buildPDF = (layout) ->
         data:
             events: state.selected()
             layout: layout
-            template: state.template()
+            template: state.template().id
     .then (r) ->
         if r.download
             window.wizard.movePage 1
@@ -23,7 +23,7 @@ exports.DesignSelect =
                 m '.row', row.map (tpl) ->
                     m '.col-sm-3', m '.item',
                         onclick: ->
-                            state.template tpl.id
+                            state.template tpl
                             # if template only has one layout, immediately select that and build
                             if tpl.layouts.length == 1
                                 buildPDF tpl.layouts[0].id
@@ -40,12 +40,12 @@ exports.DesignSelect =
                         ]
                     ]
         else
-            return _.chunk(state.available().layouts, 4).map (row) ->
+            return _.chunk(state.template().layouts, 4).map (row) ->
                 m '.row', row.map (layout) ->
                     m '.col-sm-3', m '.item',
                         onclick: -> buildPDF layout.id
                     , [
                         m 'img',
-                            src: 'preview/' + state.template() + '/' + layout.id + '/preview.jpg'
+                            src: 'preview/' + state.template().id + '/' + layout.id + '/preview.jpg'
                         m 'p', layout.name
                     ]
