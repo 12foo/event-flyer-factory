@@ -48,7 +48,7 @@ exports.EventSelect =
                 m 'h4.drag-header', 'Events near you'
                 m '.event-selection', m '.scroll-content', _.xor(state.events(), state.selected()).map renderEvent
                 m '.action.align-right', [
-                    m 'span.big.white', 'Filters go here'
+                    m 'span.big.white', ''
                 ]
             ]
             m '.col-xs-6.nopadding', [
