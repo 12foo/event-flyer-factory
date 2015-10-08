@@ -20,7 +20,8 @@ git submodule update
 # (activate your virtualenv if you have one)
 pip install -r requirements.txt
 npm install
-npm run build
+npm run build 
+# (for development, use npm run dev to automatically recompile js/css on changes)
 python server.py
 ```
 
