@@ -18,7 +18,7 @@ def find_events():
 @app.route("/available")
 def available():
     event_types = {
-        26: { "name": "Debate Watch Parties", "color": "#147fd7" },
+        36: { "name": "Debate Watch Parties", "color": "#147fd7" },
         22: { "name": "Voter Registration", "color": "#f55b5b" },
         24: { "name": "Volunteer Activities", "color": "#4acc66" },
         25: { "name": "Volunteer Meetings", "color": "#2d9f46" }
