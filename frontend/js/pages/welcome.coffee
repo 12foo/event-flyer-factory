@@ -18,7 +18,7 @@ exports.EventSearch =
                     format: 'json'
                     limit: 100
 
-                if state.onlyParties() == 'yes' then data['event_type[]'] = 26
+                if state.onlyParties() == 'yes' then data['event_type[]'] = 36
 
                 m.request
                     method: 'GET'
