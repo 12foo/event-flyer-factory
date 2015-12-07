@@ -51,4 +51,8 @@ m.request
     background: true
 .then (av) ->
     state.available av
+    state.typeMap(_.indexBy(av.event_types, 'value'))
+    state.selectedTypes(_.pluck(_.filter(av.event_types, (et) ->
+        et.name.toLowerCase().indexOf('party') > -1
+    ),'value'))
     m.mount document.getElementById('design-select'), require('pages/design').DesignSelect

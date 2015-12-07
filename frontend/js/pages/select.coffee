@@ -8,9 +8,10 @@ renderEvent = (e) ->
     , [
         m 'span.event-type',
             style:
-                background: state.available().event_types[e.type_id].color
-        , state.available().event_types[e.type_id].name
-        m '.event-date', t.format('MMM D, YYYY h:mma ') + e.timezone + ' (' + t.fromNow() + ')'
+                background: state.typeMap()[e.type_id].color
+        , state.typeMap()[e.type_id].name
+        # m '.event-date', t.format('MMM D, YYYY h:mma ') + e.timezone + ' (' + t.fromNow() + ')'
+        m '.event-date', t.format('MMM D, YYYY h:mma ') + e.timezone
         m 'h5.event-title', e.name
         m '.event-venue', _.compact([e.venue_name, e.venue_addr1, e.venue_city, e.venue_state_cd, e.venue_zip]).join(', ')
     ]

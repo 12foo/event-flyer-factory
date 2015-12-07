@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, json, send_file, after_this_request
 from os import path, remove
 import requests, tempfile, os
-import pdf_builder, layouts, templates
+import pdf_builder, layouts, templates, eventsync
 
 app = Flask(__name__)
 
@@ -17,12 +17,7 @@ def find_events():
 # Gets a listing of available templates and layouts.
 @app.route("/available")
 def available():
-    event_types = {
-        36: { "name": "Debate Watch Parties", "color": "#147fd7" },
-        22: { "name": "Voter Registration", "color": "#f55b5b" },
-        24: { "name": "Volunteer Activities", "color": "#4acc66" },
-        25: { "name": "Volunteer Meetings", "color": "#2d9f46" }
-    }
+    event_types = eventsync.get_event_ids()
     return json.jsonify(templates=templates.templates_dict(), event_types=event_types)
 
 # Gets a preview image of a template/layout combination.
