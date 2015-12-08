@@ -2,7 +2,6 @@ arrow==0.6.0
 Flask==0.10.1
 itsdangerous==0.24
 Jinja2==2.8
-lxml==3.5.0
 MarkupSafe==0.23
 Pillow==2.9.0
 PyPDF2==1.25.1
