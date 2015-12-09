@@ -19,6 +19,8 @@ cd event-flyer-factory
 git submodule update
 # (activate your virtualenv if you have one)
 pip install -r requirements.txt
+# you need to install lxml separately for deployment reasons
+pip install lxml
 npm install
 npm run build 
 # (for development, use npm run dev to automatically recompile js/css on changes)
