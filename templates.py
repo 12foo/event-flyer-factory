@@ -20,6 +20,12 @@ class DebateWatch(Template):
     creator = "Flyers for Bernie"
     layouts = [layouts.TwoColumnLayout]
 
+class Bernie2016Plain(Template):
+    name = "Plain Bernie"
+    description = "A large, plain flyer with logo. Great for many events or featured events."
+    creator = "Chris Estrada"
+    layouts = [layouts.TwoColumnLayout, layouts.FeaturedLayout]
+
 cached_templates = None
 def templates():
     global cached_templates

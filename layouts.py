@@ -214,7 +214,7 @@ class ThreeColumnLayout(Layout):
         doc.build(story)
 
 class FeaturedLayout(Layout):
-    name = "Featured Event + 2 columns (~10 events)"
+    name = "Feature 1st Event + 2 columns (~10 events)"
     description = "One large main event, and 2 columns with further events."
         
     def fill(self, fname, pagesize, events, topspace, bottomspace, margins):
