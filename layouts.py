@@ -46,6 +46,14 @@ styles = {
             allowWidows=1, splitLongWords=1, alignment=TA_CENTER),
         "xl-event-description": ParagraphStyle("xl-event-description", fontName="Lato", fontSize=9,
             allowWidows=1, splitLongWords=1, alignment=TA_CENTER),
+        "pb-event-title": ParagraphStyle("xl-event-title", fontName="Lato Bold", fontSize=18,
+            allowWidows=1, splitLongWords=1, alignment=TA_CENTER, spaceAfter=0.20*inch),
+        "pb-event-venue": ParagraphStyle("xl-event-venue", fontName="Lato Bold", fontSize=12,
+            allowWidows=1, splitLongWords=1, alignment=TA_CENTER),
+        "pb-event-venue-address": ParagraphStyle("xl-event-venue-address", fontName="Lato", fontSize=12,
+            allowWidows=1, splitLongWords=1, alignment=TA_CENTER, spaceAfter=0.10*inch),
+        "pb-event-description": ParagraphStyle("xl-event-description", fontName="Lato", fontSize=10,
+            allowWidows=1, splitLongWords=1, alignment=TA_CENTER),
         "xs-event-title": ParagraphStyle("xs-event-title", fontName="Lato Bold", fontSize=6,
             allowWidows=1, splitLongWords=1, spaceAfter=0, leading=6),
         "xs-event": ParagraphStyle("xs-event", fontName="Lato", fontSize=6, leading=6,
@@ -131,6 +139,19 @@ class XLEvent(Event):
         e.append(Paragraph(self.description, styles["xl-event-description"]))
         return KeepTogether(e)
 
+# Phonebank RSVP sheet top event
+class PBEvent(Event):
+    def __init__(self, event):
+        Event.__init__(self, event)
+
+    def render(self):
+        e = []
+        e.append(Paragraph(self.name, styles["pb-event-title"]))
+        e.append(Paragraph("%s, <b>%s</b>" % (self.time, self.venue_name), styles["pb-event-venue"]))
+        if len(self.place) > 0:
+            e.append(Paragraph(self.place, styles["pb-event-venue-address"]))
+        e.append(Paragraph(self.description, styles["pb-event-description"]))
+        return KeepTogether(e)
 
 # Spacing line with a star
 class SpacerLine(Flowable):
@@ -231,6 +252,23 @@ class FeaturedLayout(Layout):
         story.append(FrameBreak())
         for e in events[1:]:
             story.append(Event(e).render())
+        doc.build(story)
+
+class PhonebankLayout(Layout):
+    events = 1
+    name = "Phonebank RSVP Sheet"
+    description = "RSVP sheet for a phonebank event."
+        
+    def fill(self, fname, pagesize, events, topspace, bottomspace, margins):
+        std_margin = 0.5*inch
+        doc = BaseDocTemplate(fname, pagesize=pagesize, leftMargin=std_margin, bottomMargin=std_margin, rightMargin=std_margin, topMargin=std_margin)
+        phonebank = Frame(doc.leftMargin, doc.bottomMargin+3*doc.height/4, doc.width,
+                doc.height/4, id="featured")
+        doc.addPageTemplates(PageTemplate(frames=[phonebank]))
+
+        story = []
+        story.append(PBEvent(events[0]).render())
+        story.append(FrameBreak())
         doc.build(story)
 
 class BerniePartyTwoUp(Layout):

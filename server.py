@@ -59,6 +59,24 @@ def download_flyer(fid):
 
     return send_file(pdf, as_attachment=True, attachment_filename="flyer.pdf", mimetype="application/pdf")
 
+single_event = "https://go.berniesanders.com/page/event/search_results?event_id=%d&format=json"
+
+# Quickly generate a phonebank sheet PDF given an event ID.
+@app.route("/phonebank/<seid>")
+def phonebank_rsvpsheet(seid):
+    eid = None
+    try:
+        eid = int(seid)
+    except ValueError:
+        eid = None
+    if eid is None:
+        return "That's not a valid event ID.", 400
+    event = requests.get(single_event % (eid)).json()["results"]
+    with tempfile.NamedTemporaryFile(dir=tmpdir, delete=False) as event_pdf:
+        pdf_builder.build_pdf("Phonebank", "PhonebankLayout", event, event_pdf.name)
+        return send_file(event_pdf.name, as_attachment = True,
+                attachment_filename = str(eid) + "-rsvpsheet.pdf", mimetype="application/pdf")
+
 # Display index page.
 @app.route("/")
 def index():
